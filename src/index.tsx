@@ -15,7 +15,6 @@ const root = createRoot(domNode);
 const App = () => {
 	const [pageState, setPageState] = useState<ArticleStateType>(defaultArticleState);
 
-
 	return (
 		<div
 			className={clsx(styles.main)}

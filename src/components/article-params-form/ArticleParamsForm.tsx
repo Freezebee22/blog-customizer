@@ -1,7 +1,7 @@
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './ArticleParamsForm.module.scss';
 import { Select } from '../select';
@@ -30,6 +30,11 @@ export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.S
 	const handleFormSubmit = (ev: React.SyntheticEvent) => {
 		ev.preventDefault();
 		setState(formState);
+	};
+
+	const handleReset = () => {
+		setFormState(defaultArticleState);
+		setState(defaultArticleState);	
 	};
 
 
@@ -108,6 +113,7 @@ export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.S
 						<Button
 							title='Сбросить'
 							type='reset'
+							onClick={handleReset}
 						/>
 						<Button title='Применить' type='submit'/>
 					</div>
