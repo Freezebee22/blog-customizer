@@ -49,7 +49,7 @@ export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.S
 		return (() => {
 			document.removeEventListener('mousedown', handleClickOut);
 		});
-	});
+	}, []);
 
 
 	return (
