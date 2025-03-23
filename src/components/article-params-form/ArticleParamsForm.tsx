@@ -1,7 +1,7 @@
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './ArticleParamsForm.module.scss';
 import { Select } from '../select';
@@ -22,6 +22,7 @@ const spacing = 30;
 export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.SetStateAction<ArticleStateType>>}) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [formState, setFormState] = useState<ArticleStateType>(defaultArticleState);
+	const formRef = useRef<HTMLElement | null>(null);
 
 	const handleBtnClick = () => {
 		setIsOpen(prev => !prev);
@@ -37,6 +38,19 @@ export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.S
 		setState(defaultArticleState);	
 	};
 
+	useEffect(() => {
+		const handleClickOut = (ev: MouseEvent) => {
+			if (formRef.current && !formRef.current.contains(ev.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOut);
+		
+		return (() => {
+			document.removeEventListener('mousedown', handleClickOut);
+		});
+	});
+
 
 	return (
 		<>
@@ -44,7 +58,8 @@ export const ArticleParamsForm = ({setState} : {setState: React.Dispatch<React.S
 			<aside
 				className={clsx(styles.container, {
 					[styles.container_open]: isOpen,
-				})}>
+				})}
+				ref={formRef}>
 				<form className={styles.form} onSubmit={handleFormSubmit}>
 					<Select	
 						options={optionsFont}
